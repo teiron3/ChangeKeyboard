@@ -1,16 +1,29 @@
-function Change-Keyboard{ 
-[string]$Path = "HKLM:\SYSTEM\CurrentControlSet\services\i8042prt\Parameters"
+function Change-Keyboard { 
+	param(
+		[switch]$jp,
+		[switch]$en
+	)
+	begin {}
+	end {
+		if (-not ($jp -or $en)) {
+			return
+		}	
+		[string]$Path = "HKLM:\SYSTEM\CurrentControlSet\services\i8042prt\Parameters"
 
-#æ—¥æœ¬èªžé…åˆ—ã€€ãƒ¬ã‚¸ã‚¹ãƒˆãƒªå¤‰æ›´
-Set-ItemProperty -Path $Path -Name "LayerDriver JPN" -Value kbd106.dll
-Set-ItemProperty -Path $Path -Name "OverrideKeyboardIdentifier" -Value PCAT_106KEY
-Set-ItemProperty -Path $Path -Name "OverrideKeyboardType" -Value 7
-Set-ItemProperty -Path $Path -Name "OverrideKeyboardSubtype" -Value 2
-
-#è‹±èªžé…åˆ—ã€€ãƒ¬ã‚¸ã‚¹ãƒˆãƒªå¤‰æ›´
-Set-ItemProperty -Path $Path -Name "LayerDriver JPN" -Value kbd101.dll
-Set-ItemProperty -Path $Path -Name "OverrideKeyboardIdentifier" -Value PCAT_101KEY
-Set-ItemProperty -Path $Path -Name "OverrideKeyboardType" -Value 7
-Set-ItemProperty -Path $Path -Name "OverrideKeyboardSubtype" -Value 0
-write-host â€ã‚µã‚¤ãƒ³ã‚¢ã‚¦ãƒˆâ†’ã‚µã‚¤ãƒ³ã‚¤ãƒ³ã™ã‚‹ã¨åæ˜ ã•ã‚Œã¾ã™â€
+		if ($jp) {
+			#“ú–{Œê”z—ñ@ƒŒƒWƒXƒgƒŠ•ÏX
+			Set-ItemProperty -Path $Path -Name "LayerDriver JPN" -Value kbd106.dll
+			Set-ItemProperty -Path $Path -Name "OverrideKeyboardIdentifier" -Value PCAT_106KEY
+			Set-ItemProperty -Path $Path -Name "OverrideKeyboardType" -Value 7
+			Set-ItemProperty -Path $Path -Name "OverrideKeyboardSubtype" -Value 2
+		}
+		if ($en) {
+			#‰pŒê”z—ñ@ƒŒƒWƒXƒgƒŠ•ÏX
+			Set-ItemProperty -Path $Path -Name "LayerDriver JPN" -Value kbd101.dll
+			Set-ItemProperty -Path $Path -Name "OverrideKeyboardIdentifier" -Value PCAT_101KEY
+			Set-ItemProperty -Path $Path -Name "OverrideKeyboardType" -Value 7
+			Set-ItemProperty -Path $Path -Name "OverrideKeyboardSubtype" -Value 0
+		}
+		write-host hƒTƒCƒ“ƒAƒEƒg¨ƒTƒCƒ“ƒCƒ“‚·‚é‚Æ”½‰f‚³‚ê‚Ü‚·h
+	}
 }
